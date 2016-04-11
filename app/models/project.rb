@@ -1,1 +1,2 @@
-project.rb
+class Project < ActiveRecord::Base
+end

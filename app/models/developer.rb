@@ -1,1 +1,2 @@
-developer.rb
+class Developer < ActiveRecord::Base
+end

@@ -1,1 +1,2 @@
-nonprofit.rb
+class Nonprofit < ActiveRecord::Base
+end
