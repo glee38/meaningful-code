@@ -1,1 +1,2 @@
-projects_controller.rb
+class ProjectsController < ApplicationController
+end

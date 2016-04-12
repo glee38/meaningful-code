@@ -1,1 +1,2 @@
-nonprofits_controller.rb
+class NonprofitsController < ApplicationController
+end

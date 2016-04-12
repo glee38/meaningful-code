@@ -1,1 +1,2 @@
-developers_controller.rb
+class DevelopersController < ApplicationController
+end
