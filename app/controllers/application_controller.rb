@@ -19,15 +19,15 @@ class ApplicationController < Sinatra::Base
     end
 
     def current_dev
-      Developer.find(session[:dev_id])
+      @current_dev ||= Developer.find(session[:dev_id])
     end
 
     def np_logged_in?
-      !!session[:np_id]
+      !!current_np
     end
 
     def current_np
-      Nonprofit.find(session[:np_id])
+      @current_np ||= Nonprofit.find(session[:np_id])
     end
   end
 
