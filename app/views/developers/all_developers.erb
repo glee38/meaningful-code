@@ -1,0 +1,5 @@
+<h1>Developers</h1><br>
+  <% Developer.all.each do |d|%>
+    <h4><a href="/developers/<%=d.slug%>"><%= d.name %></a></h4><br>
+    <%= d.github %><br>
+  <%end%>

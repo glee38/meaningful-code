@@ -40,7 +40,6 @@ class DevelopersController < ApplicationController
   end
 
   get '/developers/login' do
-    @project = Project.new
     if dev_logged_in?
       redirect "/developers/#{current_dev.slug}"
     else
@@ -67,10 +66,14 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get "/developers/all" do
+    erb :'developers/all_developers'
+  end
+
   get '/developers/:slug' do
     @dev = Developer.find_by_slug(params[:slug])
     if !@dev.nil?
-      erb :'/developers/homepage'
+      erb :'/developers/show_developer'
     else
       redirect "developers/login"
     end
