@@ -1,3 +1,7 @@
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
 <h1><%= @nonprofit.name %></h1>
 <h3><p class="text-primary">Project: <%= @project.name %></p></h3><br>
 <h6>Created on: <%= @project.created_at.to_s.gsub("UTC", "") %></h6>
@@ -8,4 +12,5 @@
 <%= @project.project_specs %>
 <br></br>
 
-<h5><p class="text-warning">Are you a developer? Click <a href="#">here</a> to take this project.</p> </h5>
+<h5><p class="text-warning">Are you a developer?</p></h5>
+<h5><form name="developers" method="post" action="/nonprofits/<%=@nonprofit.slug%>/projects/<%=@project.slug%>"> <button type="submit" class="link">Click here to take this project.</h5>

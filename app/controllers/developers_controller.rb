@@ -1,7 +1,7 @@
 class DevelopersController < ApplicationController
   get "/developers" do
     if dev_logged_in?
-      redirect "/developers/#{current_dev.slug}"
+      redirect "/developers/#{current_dev.slug}/homepage"
     else
       erb :"developers/index"
     end
@@ -9,7 +9,7 @@ class DevelopersController < ApplicationController
 
   post '/developers' do
     if dev_logged_in?
-      redirect "/developers/#{current_dev.slug}"
+      redirect "/developers/#{current_dev.slug}/homepage"
     elsif np_logged_in?
       redirect "/nonprofits/#{current_np.slug}"
     else
@@ -33,7 +33,7 @@ class DevelopersController < ApplicationController
     if @dev.valid?
       @dev.save
       session[:dev_id] = @dev.id
-      redirect "/developers/#{@dev.slug}"
+      redirect "/developers/#{@dev.slug}/homepage"
     else
       erb :'developers/signup'
     end
@@ -41,7 +41,7 @@ class DevelopersController < ApplicationController
 
   get '/developers/login' do
     if dev_logged_in?
-      redirect "/developers/#{current_dev.slug}"
+      redirect "/developers/#{current_dev.slug}/homepage"
     else
       erb :'developers/login'
     end
@@ -51,7 +51,7 @@ class DevelopersController < ApplicationController
     dev = Developer.find_by(username: params[:username])
     if dev && dev.authenticate(params[:password])
       session[:dev_id] = dev.id
-      redirect "/developers/#{dev.slug}"
+      redirect "/developers/#{dev.slug}/homepage"
     else
       erb :'developers/login', locals: {message: "Incorrect username and/or password."}
     end
@@ -68,6 +68,15 @@ class DevelopersController < ApplicationController
 
   get "/developers/all" do
     erb :'developers/all_developers'
+  end
+
+  get '/developers/:slug/homepage' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if @dev == current_dev
+      erb :'/developers/homepage'
+    else
+      redirect "developers/login"
+    end
   end
 
   get '/developers/:slug' do

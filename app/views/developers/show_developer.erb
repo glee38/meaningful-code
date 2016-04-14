@@ -1,3 +1,13 @@
 <h1><%=@dev.name%></h1><br>
-<h4>Github</h4>
-<a href="<%=@dev.github%>"><%=@dev.github%></a>
+<h4><p class="text-warning">Github</h4>
+<a href="<%=@dev.github%>"><%=@dev.github%></a><br></br>
+<h4><p class="text-warning">About Me</h4>
+<%=@dev.about_me%><br></br>
+<h4><p class="text-warning">My Projects</h4>
+<%if @dev.projects.count == 0 %>
+  No current projects.
+<%else%>
+  <%@dev.projects.each do |p|%>
+    <%=p.name%> // <%=p.nonprofit.name%><br>
+  <%end%>
+<%end%>

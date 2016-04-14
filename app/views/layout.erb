@@ -22,7 +22,7 @@
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/projects">All Projects<span class="sr-only">(current)</span></a></li>
+        <li><a href="/developers/<%=current_dev.slug%>">Your Profile<span class="sr-only">(current)</span></a></li>
         <li><a href="/developers/<%=current_dev.slug%>">Your Projects</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More <span class="caret"></span></a>
@@ -46,7 +46,7 @@
   </div>
 </ul>
    <ul class="breadcrumb">
-    <li><a href="/developers/<%=current_dev.slug%>">Home</a></li>
+    <li><a href="/developers/<%=current_dev.slug%>/homepage">Home</a></li>
     <li class="active">Developer</li>
     <li class="active"><%=current_dev.name%></li>
   </ul>

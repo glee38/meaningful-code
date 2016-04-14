@@ -94,11 +94,29 @@ class NonprofitsController < ApplicationController
     end 
   end
 
-    get "/nonprofits/:np_slug/projects/:p_slug" do
+  get "/nonprofits/:np_slug/projects/:p_slug" do
     @nonprofit = Nonprofit.find_by_slug(params[:np_slug])
     @project = Project.find_by_slug(params[:p_slug])
 
     erb :"projects/show_project"
+  end
+
+  post "/nonprofits/:np_slug/projects/:p_slug" do
+    @nonprofit = Nonprofit.find_by_slug(params[:np_slug])
+    @project = Project.find_by_slug(params[:p_slug])
+
+    if dev_logged_in?
+      if current_dev.projects.include?(@project)
+        erb :"projects/show_project", locals: {message: "You have already added this project."}
+      else
+        current_dev.projects << @project 
+        erb :"projects/show_project", locals: {message: "Project successfully added."}
+      end
+    elsif np_logged_in?
+      erb :"projects/show_project", locals: {message: "Oops! Only developers can 'take' projects."}
+    else
+      erb :"projects/show_project", locals: {message: "Please login or sign up."}
+    end
   end
 
 end
