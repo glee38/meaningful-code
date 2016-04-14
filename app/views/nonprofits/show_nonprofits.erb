@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<head>
+  <title>Nonprofits Show Page</title>
+</head>
+<body>
+  <h1>Nonprofits:</h1>
+  <% Nonprofit.all.each do |np| %>
+  <a href="/nonprofits/<%=np.slug%>"><%= np.name %></a><br>
+  <%end%>
+</body>
+</html>

@@ -7,12 +7,22 @@ class DevelopersController < ApplicationController
     end
   end
 
+  post '/developers' do
+    if dev_logged_in?
+      redirect "/developers/#{current_dev.slug}"
+    elsif np_logged_in?
+      redirect "/nonprofits/#{current_np.slug}"
+    else
+      erb :"developers/index"
+    end
+  end
+
   get "/developers/signup" do
     @dev = Developer.new
     if dev_logged_in?
       redirect "/developers"
     else
-      erb :"developers/developers_signup"
+      erb :"developers/signup"
     end   
   end
 
@@ -25,15 +35,16 @@ class DevelopersController < ApplicationController
       session[:dev_id] = @dev.id
       redirect "/developers/#{@dev.slug}"
     else
-      erb :'developers/developers_signup'
+      erb :'developers/signup'
     end
   end
 
   get '/developers/login' do
+    @project = Project.new
     if dev_logged_in?
-      redirect '/developers'
+      redirect "/developers/#{current_dev.slug}"
     else
-      erb :'developers/developers_login'
+      erb :'developers/login'
     end
   end
 
@@ -43,7 +54,7 @@ class DevelopersController < ApplicationController
       session[:dev_id] = dev.id
       redirect "/developers/#{dev.slug}"
     else
-      erb :'developers/developers_login', locals: {message: "Incorrect username and/or password."}
+      erb :'developers/login', locals: {message: "Incorrect username and/or password."}
     end
   end
 
@@ -61,7 +72,7 @@ class DevelopersController < ApplicationController
     if !@dev.nil?
       erb :'/developers/homepage'
     else
-      redirect "/login"
+      redirect "developers/login"
     end
   end
 

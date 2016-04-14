@@ -15,74 +15,34 @@ nonprofits_list = {
         Now, make a decision to help. We’re not offering grand solutions and billion dollar schemes, but instead, simple things that work. Things like freshwater wells, rainwater catchments and sand filters. For about $30 a person, we know how to help millions.",
 
       :tagline => "Bringing clean, safe drinking water to people in developing nations",
-      :website => "https://my.charitywater.org/donate/home"
-      :username => "charitywater"
-      :password_digest => "charitywater"
+      :website => "https://my.charitywater.org/donate/home",
+      :username => "charitywater",
+      :password_digest => Nonprofit.digest('charitywater'),
       :email => "charitywater@charitywater.com"
     },
     "American Red Cross" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
+      :cause => "The American Red Cross exists to provide compassionate care to those in need. Our network of generous donors, volunteers and employees share a mission of preventing and relieving suffering, here at home and around the world, through five key service areas: Disaster Relief, Supporting America’s Military Families, Lifesaving Blood, Health and Safety Services, and International Services.",
+      :tagline => "Make a Difference & Help People Affected By Disasters Big & Small.",
+      :website => "http://www.redcross.org/",
+      :username => "americanredcross",
+      :password_digest => Nonprofit.digest('americanredcross'),
+      :email => "americanredcross@redcross.org"
     },
     "Do Something" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
+      :cause => "One of the largest global orgs for young people and social change, our 5.2 million members in 130 countries tackle volunteer campaigns that impact every cause. Poverty. Discrimination. The environment. And everything else. Our promise: Any cause, anytime, anywhere.",
+      :tagline => "We make the world suck less.",
+      :website => "https://www.dosomething.org/us",
+      :username => "dosomething",
+      :password_digest => Nonprofit.digest('dosomething'),
+      :email => "dosomething@dosomething.org"
     },
     "Doctors Without Borders" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
-    },
-    "Livestrong" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
-    },
-    "American Cancer Society" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
-    },
-    "Human Rights Watch (HRW)" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
-    },
-    "United Nations Children's Fund (UNICEF)" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
-    },
-    "Samaritan's Purse" => {
-      :cause =>
-      :tagline =>
-      :website =>
-      :username =>
-      :password_digest =>
-      :email =>
+      :cause => "We are Doctors Without Borders/Médecins Sans Frontières (MSF). We help people worldwide where the need is greatest, delivering emergency medical aid to people affected by conflict, epidemics, disasters, or exclusion from health care.",
+      :tagline => "Medical aid where it is needed most. Independent. Neutral. Impartial.",
+      :website => "http://www.doctorswithoutborders.org/",
+      :username => "doctorswithoutborders",
+      :password_digest => Nonprofit.digest('doctorswithoutborders'),
+      :email => "doctorswithoutborders@dwob.org"
     }
   }
 

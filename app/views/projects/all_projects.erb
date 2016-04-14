@@ -1,0 +1,7 @@
+<h1>Projects</h1>
+  <% Project.all.each do |p|%>
+    <% if p.nonprofit != nil %>
+    <%= p.name %><br>
+    <%= p.nonprofit.name %><br>
+    <%end%>
+  <%end%>

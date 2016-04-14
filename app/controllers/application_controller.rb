@@ -10,7 +10,13 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :index
+    if dev_logged_in?
+      redirect "/developers/#{current_dev.slug}"
+    elsif np_logged_in?
+      redirect "/nonprofits/#{current_np.slug}"
+    else
+      erb :index
+    end
   end
 
   helpers do
@@ -23,7 +29,7 @@ class ApplicationController < Sinatra::Base
     end
 
     def np_logged_in?
-      !!current_np
+      !!session[:np_id]
     end
 
     def current_np
