@@ -94,6 +94,15 @@ class NonprofitsController < ApplicationController
     end 
   end
 
+  get '/nonprofits/:slug/developers' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      erb :"nonprofits/np_developers"
+    else
+      redirect "/failure"
+    end 
+  end
+
   get "/nonprofits/:np_slug/projects/:p_slug" do
     @nonprofit = Nonprofit.find_by_slug(params[:np_slug])
     @project = Project.find_by_slug(params[:p_slug])

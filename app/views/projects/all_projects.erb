@@ -1,7 +1,4 @@
-<h1>Projects</h1>
+<h1>All Projects</h1><br>
   <% Project.all.each do |p|%>
-    <% if p.nonprofit != nil %>
-    <%= p.name %><br>
-    <%= p.nonprofit.name %><br>
-    <%end%>
+    <h5><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p></h5>
   <%end%>

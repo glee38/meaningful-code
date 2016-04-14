@@ -1,0 +1,8 @@
+<h1>Your Developers</h1><br>
+<%if @np.developers.count == 0%>
+  No developers to show.
+<%else%>
+  <% @np.developers.each do |d|%>
+    <h4><p class="text-muted"><a href="/developers/<%=d.slug%>"><%= d.name %></a> // <a href="<%=d.github%>"><%= d.github %></a></h4>
+  <%end%>
+<%end%>

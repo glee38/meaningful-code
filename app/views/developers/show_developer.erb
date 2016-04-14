@@ -4,10 +4,10 @@
 <h4><p class="text-warning">About Me</h4>
 <%=@dev.about_me%><br></br>
 <h4><p class="text-warning">My Projects</h4>
-<%if @dev.projects.count == 0 %>
+<%if current_dev.projects.count == 0%>
   No current projects.
 <%else%>
-  <%@dev.projects.each do |p|%>
-    <%=p.name%> // <%=p.nonprofit.name%><br>
+  <%current_dev.projects.each do |p|%>
+    <p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p><br>
   <%end%>
 <%end%>

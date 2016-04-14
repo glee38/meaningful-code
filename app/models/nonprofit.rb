@@ -5,8 +5,7 @@ class Nonprofit < ActiveRecord::Base
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
 
   has_many :projects
-  has_many :developer_projects
-  has_many :developers, through: :developer_projects
+  has_many :developers, through: :projects
 
   include Slugify
   extend Slugify
