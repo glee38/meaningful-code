@@ -103,6 +103,30 @@ class NonprofitsController < ApplicationController
     end 
   end
 
+  get '/nonprofits/:np_slug/projects/:p_slug/edit' do
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @project = Project.find_by_slug(params[:p_slug])
+    if np_logged_in?
+      if current_np.slug == @np.slug
+        erb :'/nonprofits/edit_project'
+      else
+        redirect "/nonprofits/#{current_np.slug}/projects"
+      end
+    else
+      redirect "/nonprofits/#{@np.slug}/projects"
+    end
+  end
+
+  post '/nonprofits/:np_slug/projects/:p_slug/edit' do
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @project = Project.find_by_slug(params[:p_slug])
+    if current_np.slug == @np.slug
+      erb :'/nonprofits/edit_project'
+    else
+      redirect "/nonprofits/#{current_np.slug}/projects"
+    end
+  end
+
   get "/nonprofits/:np_slug/projects/:p_slug" do
     @nonprofit = Nonprofit.find_by_slug(params[:np_slug])
     @project = Project.find_by_slug(params[:p_slug])

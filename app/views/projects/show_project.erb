@@ -4,7 +4,14 @@
 
 <h1><%= @nonprofit.name %></h1>
 
-<h3><p class="text-primary">Project: <%= @project.name %></p></h3><br>
+<h3><p class="text-primary">Project: <%= @project.name %></p></h3>
+
+<%if np_logged_in?%>
+  <%if current_np.slug == @nonprofit.slug%>
+    <h5><form name="edit_project" method="post" action="/nonprofits/<%=@nonprofit.slug%>/projects/<%=@project.slug%>/edit"> <button type="submit" class="link">Edit Project</h5><br>
+  <%end%>
+<%end%>
+
 
 <h6>Created on: <%= @project.created_at.to_s.gsub("UTC", "") %></h6>
 <h6>Updated on: <%= @project.updated_at.to_s.gsub("UTC", "") %></h6><br>
@@ -16,6 +23,10 @@
 <%= @project.project_specs %>
 
 <h4>Current Developers:</h4>
+<%if @project.developers.count == 0%>
+  None.<br>
+<%end%>
+
 <%@project.developers.each do |d|%>
 <a href="/developers/<%=d.slug%>"><%= d.name %></a><br>
 <%end%>

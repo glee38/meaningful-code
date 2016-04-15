@@ -3,7 +3,7 @@
   No current projects.
 <%else%>
   <%@dev.projects.each do |p|%>
-    <h5><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p></h5>
+    <li><h5><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p></h5></li>
   <%end%>
 <%end%><br>
 

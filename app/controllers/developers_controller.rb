@@ -83,6 +83,29 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get '/developers/:slug/projects/edit' do
+    @dev = Developer.find_by_slug(params[:slug])
+
+    if dev_logged_in?
+      if current_dev.slug == @dev.slug
+        erb :'/developers/edit_projects'
+      else
+        redirect "/developers/#{current_dev.slug}"
+      end
+    else
+      redirect "/developers/#{@dev.slug}"
+    end
+  end
+
+  post '/developers/:slug/projects/edit' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if current_dev.slug == @dev.slug
+      erb :'/developers/edit_projects'
+    else
+      redirect "/developers/#{current_dev.slug}"
+    end
+  end
+
   get '/developers/:slug/homepage' do
     @dev = Developer.find_by_slug(params[:slug])
     if @dev == current_dev
