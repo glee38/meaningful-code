@@ -1,6 +1,5 @@
 class Project < ActiveRecord::Base
   validates_presence_of :name, :project_specs, :due_date
-  validates_uniqueness_of :name
   
   belongs_to :nonprofit
   has_many :developer_projects

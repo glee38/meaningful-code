@@ -74,6 +74,10 @@ class DevelopersController < ApplicationController
     erb :'/developers/message'
   end
 
+  get '/developers/failure' do
+    erb :'developers/failure'
+  end
+
   get '/developers/:slug/projects' do
     @dev = Developer.find_by_slug(params[:slug])
     if !@dev.nil?
@@ -118,10 +122,14 @@ class DevelopersController < ApplicationController
 
   get '/developers/:slug/homepage' do
     @dev = Developer.find_by_slug(params[:slug])
-    if @dev == current_dev
-      erb :'/developers/homepage'
+    if !@dev.nil?
+      if @dev == current_dev
+        erb :'/developers/homepage'
+      else
+        redirect "developers/login"
+      end
     else
-      redirect "developers/login"
+      redirect "/developers/failure"
     end
   end
 
@@ -150,10 +158,6 @@ class DevelopersController < ApplicationController
     else
       redirect "developers/failure"
     end
-  end
-
-  get '/developers/failure' do
-    erb :'developers/failure'
   end
 
   get '/developers/:slug' do

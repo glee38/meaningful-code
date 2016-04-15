@@ -16,7 +16,7 @@
   <%end%>
 <%end%><br>
 
-<%unless np_logged_in?%>
+<%if dev_logged_in?%>
   <%if current_dev.slug == @dev.slug%>
     <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/edit"> <button type="submit" class="link">Edit Your Profile</h5>
   <%end%>

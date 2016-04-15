@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+  <title>Edit Nonprofit</title>
+</head>
+<body>
+  <h1>Edit Your Profile</h1><br>
+  <form action="/nonprofits/<%=current_np.slug%>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  
+  <label for="name">Name:</label><br>
+  <input type="text" name="np[name]" value="<%=current_np.name%>"><br></br>
+
+  <label for="about_me">Tagline:</label><br>
+  <textarea name="np[tagline]" id="" cols="30" rows="4"><%=current_np.tagline%></textarea><br></br>
+
+  <label for="cause">Cause:</label><br>
+  <textarea name="np[cause]" id="" cols="60" rows="10"><%=current_np.cause%></textarea><br></br>
+
+  <label for="website">Website:</label><br>
+  <input type="url" name="np[website]" value="<%=current_np.website%>"><br></br>
+
+  <label for="email">E-mail:</label><br>
+  <input type="email" name="np[email]" value="<%=current_np.email%>"><br></br>
+ 
+  <input type="submit" value="Update"><br></br>
+</form>
+</body>
+</html>

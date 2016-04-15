@@ -3,15 +3,6 @@ class ProjectsController < ApplicationController
     erb :"projects/all_projects"
   end
 
-  get "/projects/new" do
-    @project = Project.new
-    if np_logged_in?
-      erb :"projects/new"
-    else
-      redirect "/"
-    end
-  end
-
   post "/projects" do
     @project = Project.new(params)
     @project.valid?
@@ -24,5 +15,19 @@ class ProjectsController < ApplicationController
       erb :"projects/new"
     end
   end
+
+  get "/projects/new" do
+    @project = Project.new
+    if np_logged_in?
+      erb :"projects/new"
+    else
+      redirect "/"
+    end
+  end
+
+  get "/projects/failure" do
+    erb :'projects/failure'
+  end
+
 
 end

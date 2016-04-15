@@ -67,12 +67,86 @@ class NonprofitsController < ApplicationController
     end
   end
 
+  get "/nonprofits/failure" do
+    erb :"nonprofits/failure"
+  end
+
   get '/nonprofits/:slug' do
     @np = Nonprofit.find_by_slug(params[:slug])
     if !@np.nil?
-      erb :'/nonprofits/homepage'
+      erb :'/nonprofits/show_nonprofit'
     else
-      redirect "/failure"
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  get "/nonprofits/:id/edit" do
+    @np = Nonprofit.find_by_id(params[:id])
+
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.id == @np.id
+          erb :'/nonprofits/edit'
+        else
+          redirect "/nonprofits/#{current_np.slug}"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post "/nonprofits/:id/edit" do
+    @np = Nonprofit.find_by_id(params[:id])
+
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.id == @np.id
+          erb :'/nonprofits/edit'
+        else
+          redirect "/nonprofits/#{current_np.slug}"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  patch "/nonprofits/:id/edit" do
+    @np = Nonprofit.find_by_id(params[:id])
+
+    if np_logged_in?
+      if current_np.slug == @np.slug
+      @np.attributes=(params[:project])
+      @project.valid?
+        if @project.valid?
+          @project.save
+          redirect "nonprofits/#{current_np.slug}"
+        else
+          erb :'nonprofits/edit'
+        end
+      else
+      redirect "nonprofits/#{current_np.slug}"
+      end
+    else
+      redirect "nonprofits/all"
+    end
+  end
+
+  get "/nonprofits/:slug/homepage" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if current_np.slug == @np.slug
+        erb :'/nonprofits/homepage'
+      else
+        redirect "nonprofits/login"
+      end
+    else
+      redirect "/nonprofits/failure"
     end
   end
 
@@ -81,7 +155,7 @@ class NonprofitsController < ApplicationController
     if !@np.nil?
       erb :"nonprofits/cause"
     else
-      redirect "/failure"
+      redirect "/nonprofits/failure"
     end 
   end
 
@@ -90,7 +164,7 @@ class NonprofitsController < ApplicationController
     if !@np.nil?
       erb :"projects/np_projects"
     else
-      redirect "/failure"
+      redirect "/nonprofits/failure"
     end 
   end
 
@@ -99,39 +173,20 @@ class NonprofitsController < ApplicationController
     if !@np.nil?
       erb :"nonprofits/np_developers"
     else
-      redirect "/failure"
+      redirect "/nonprofits/failure"
     end 
-  end
-
-  get '/nonprofits/:np_slug/projects/:p_slug/edit' do
-    @np = Nonprofit.find_by_slug(params[:np_slug])
-    @project = Project.find_by_slug(params[:p_slug])
-    if np_logged_in?
-      if current_np.slug == @np.slug
-        erb :'/nonprofits/edit_project'
-      else
-        redirect "/nonprofits/#{current_np.slug}/projects"
-      end
-    else
-      redirect "/nonprofits/#{@np.slug}/projects"
-    end
-  end
-
-  post '/nonprofits/:np_slug/projects/:p_slug/edit' do
-    @np = Nonprofit.find_by_slug(params[:np_slug])
-    @project = Project.find_by_slug(params[:p_slug])
-    if current_np.slug == @np.slug
-      erb :'/nonprofits/edit_project'
-    else
-      redirect "/nonprofits/#{current_np.slug}/projects"
-    end
   end
 
   get "/nonprofits/:np_slug/projects/:p_slug" do
     @nonprofit = Nonprofit.find_by_slug(params[:np_slug])
     @project = Project.find_by_slug(params[:p_slug])
-
-    erb :"projects/show_project"
+    if @project.nil?
+      redirect "/projects/failure"
+    elsif @nonprofit.nil?
+      redirect "/nonprofits/failure"
+    else
+      erb :"projects/show_project"
+    end
   end
 
   post "/nonprofits/:np_slug/projects/:p_slug" do
@@ -148,6 +203,52 @@ class NonprofitsController < ApplicationController
       erb :"projects/show_project", locals: {message: "Oops! Only developers can 'take' projects."}
     else
       erb :"projects/show_project", locals: {message: "Please login or sign up."}
+    end
+  end
+
+  get '/nonprofits/:np_slug/projects/:p_id/edit' do
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @project = Project.find_by_id(params[:p_id])
+    if np_logged_in?
+      if current_np.slug == @np.slug
+        erb :'/nonprofits/edit_project'
+      else
+        redirect "/nonprofits/#{current_np.slug}/projects"
+      end
+    else
+      redirect "/nonprofits/#{@np.slug}/projects"
+    end
+  end
+
+  post '/nonprofits/:np_slug/projects/:p_id/edit' do
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @project = Project.find_by_id(params[:p_id])
+    if current_np.slug == @np.slug
+      erb :'/nonprofits/edit_project'
+    else
+      redirect "/nonprofits/#{current_np.slug}/projects"
+    end
+  end
+
+  patch '/nonprofits/:np_slug/projects/:p_id/edit' do
+    @project = Project.find_by_id(params[:p_id])
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+
+    if np_logged_in?
+      if current_np.slug == @np.slug
+      @project.attributes=(params[:project])
+      @project.valid?
+        if @project.valid?
+          @project.save
+          redirect "nonprofits/#{current_np.slug}/projects/#{@project.slug}"
+        else
+          erb :'nonprofits/edit_project'
+        end
+      else
+      redirect "nonprofits/#{current_np.slug}/projects"
+      end
+    else
+      redirect "nonprofits/all"
     end
   end
 

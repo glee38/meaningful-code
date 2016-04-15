@@ -1,1 +1,29 @@
-<h1>Edit Project: <%=@project.name%></h1>
+<% if @project.errors.any? %>
+  <div id="error_explanation">
+    Project could not be updated because of the following errors:
+    <ul>
+    <% @project.errors.full_messages.each do |msg|%>
+      <% unless msg.include?("digest") %>
+      <li><%= msg %></li>
+      <% end %>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h1>Edit Project: <%=@project.name%></h1><br>
+
+  <form action="/nonprofits/<%=current_np.slug%>/projects/<%=@project.id%>/edit" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  
+  <label for="name">Name:</label><br>
+  <input type="text" name="project[name]" value="<%=@project.name%>"><br></br>
+
+  <label for="email">Due Date:</label><br>
+  <input type="date" name="project[due_date]" value="<%=@project.due_date%>"><br></br>
+
+  <label for="project_specs">Project Description:</label><br>
+  <textarea name="project[project_specs]" id="" cols="30" rows="8"><%=@project.project_specs%></textarea><br></br>
+ 
+  <input type="submit" value="Update"><br></br>
+</form>
