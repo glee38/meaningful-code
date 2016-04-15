@@ -70,6 +70,19 @@ class DevelopersController < ApplicationController
     erb :'developers/all_developers'
   end
 
+  get '/developers/message' do
+    erb :'/developers/message'
+  end
+
+  get '/developers/:slug/projects' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if !@dev.nil?
+      erb :'/projects/dev_projects'
+    else
+      redirect "developers/failure"
+    end
+  end
+
   get '/developers/:slug/homepage' do
     @dev = Developer.find_by_slug(params[:slug])
     if @dev == current_dev
@@ -79,12 +92,40 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get "/developers/:slug/edit" do
+    @dev = Developer.find_by_slug(params[:slug])
+    if current_dev.slug == @dev.slug
+      erb :'/developers/edit'
+    else
+      redirect "/developers/#{current_dev.slug}"
+    end
+  end
+
+  post "/developers/:slug/edit" do
+    @dev = Developer.find_by_slug(params[:slug])
+    if current_dev.slug == @dev.slug
+      erb :'/developers/edit'
+    else
+      redirect "/developers/#{current_dev.slug}"
+    end
+  end
+
   get '/developers/:slug' do
     @dev = Developer.find_by_slug(params[:slug])
     if !@dev.nil?
       erb :'/developers/show_developer'
     else
       redirect "developers/login"
+    end
+  end
+
+  patch '/developers/:slug' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if current_dev.slug == @dev.slug
+      @dev.update(params[:dev])
+      erb :'/developers/show_developer', locals: {message: "Profile successfully updated!"}
+    else
+      redirect "/developers/#{current_dev.slug}"
     end
   end
 

@@ -3,14 +3,23 @@
 <% end %>
 
 <h1><%= @nonprofit.name %></h1>
+
 <h3><p class="text-primary">Project: <%= @project.name %></p></h3><br>
+
 <h6>Created on: <%= @project.created_at.to_s.gsub("UTC", "") %></h6>
 <h6>Updated on: <%= @project.updated_at.to_s.gsub("UTC", "") %></h6><br>
+
 <h4>Due Date:</h4>
 <%= @project.due_date %>
+
 <h4>Project Description:</h4>
 <%= @project.project_specs %>
-<br></br>
+
+<h4>Current Developers:</h4>
+<%@project.developers.each do |d|%>
+<a href="/developers/<%=d.slug%>"><%= d.name %></a><br>
+<%end%>
+<br>
 
 <h5><p class="text-warning">Are you a developer?</p></h5>
 <h5><form name="developers" method="post" action="/nonprofits/<%=@nonprofit.slug%>/projects/<%=@project.slug%>"> <button type="submit" class="link">Click here to take this project.</h5>

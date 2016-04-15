@@ -1,13 +1,21 @@
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
 <h1><%=@dev.name%></h1><br>
 <h4><p class="text-warning">Github</h4>
 <a href="<%=@dev.github%>"><%=@dev.github%></a><br></br>
 <h4><p class="text-warning">About Me</h4>
 <%=@dev.about_me%><br></br>
 <h4><p class="text-warning">My Projects</h4>
-<%if current_dev.projects.count == 0%>
+<%if @dev.projects.count == 0%>
   No current projects.
 <%else%>
-  <%current_dev.projects.each do |p|%>
-    <p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p><br>
+  <%@dev.projects.each do |p|%>
+    <p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p>
   <%end%>
+<%end%><br>
+
+<%if current_dev.slug == @dev.slug%>
+  <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/edit"> <button type="submit" class="link">Edit Your Profile</h5>
 <%end%>

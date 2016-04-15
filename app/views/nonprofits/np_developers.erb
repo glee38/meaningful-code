@@ -2,7 +2,13 @@
 <%if @np.developers.count == 0%>
   No developers to show.
 <%else%>
-  <% @np.developers.each do |d|%>
-    <h4><p class="text-muted"><a href="/developers/<%=d.slug%>"><%= d.name %></a> // <a href="<%=d.github%>"><%= d.github %></a></h4>
+  <% @np.developers.uniq.each_with_index do |d,i|%>
+
+    <h4><p class="text-warning"><%="#{i+1}. "%><a href="/developers/<%=d.slug%>"><%= d.name %></a> // <a href="<%=d.github%>"><%= d.github %></a></h4>
+
+    <%d.projects.each do |p|%>
+      <li><%=p.name%></li>
+    <%end%><br>
+
   <%end%>
 <%end%>
