@@ -1,4 +1,9 @@
 <h1><%=@dev.name%>'s Projects</h1><br>
+
+<%if current_dev.slug == @dev.slug%>
+    <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/projects/edit"> <button type="submit" class="link">Manage Your Projects</h5><br>
+<%end%>
+
 <%if @dev.projects.count == 0%>
   No current projects.
 <%else%>
@@ -6,7 +11,3 @@
     <li><h5><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a> // <a href="/nonprofits/<%=p.nonprofit.slug%>"><%=p.nonprofit.name%></a></p></h5></li>
   <%end%>
 <%end%><br>
-
-<%if current_dev.slug == @dev.slug%>
-    <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/projects/edit"> <button type="submit" class="link">Manage Your Projects</h5>
-<%end%>

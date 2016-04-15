@@ -85,7 +85,6 @@ class DevelopersController < ApplicationController
 
   get '/developers/:slug/projects/edit' do
     @dev = Developer.find_by_slug(params[:slug])
-
     if dev_logged_in?
       if current_dev.slug == @dev.slug
         erb :'/developers/edit_projects'
@@ -104,6 +103,17 @@ class DevelopersController < ApplicationController
     else
       redirect "/developers/#{current_dev.slug}"
     end
+  end
+
+  patch '/developers/:slug/projects/edit' do
+    @dev = Developer.find_by_slug(params[:slug])
+
+      @project_ids = @dev.project_ids
+      @to_delete = params[:dev][:project_ids]
+      @project_ids.delete_if {|p| @to_delete.include?(p.to_s)}
+      @dev.update(project_ids: @project_ids)
+
+      erb :"/developers/edit_projects", locals: {message: "Project(s) successfully removed."} 
   end
 
   get '/developers/:slug/homepage' do
