@@ -1,0 +1,9 @@
+<h1><%=@dev.name%>'s Nonprofits</h1>
+
+<%if @dev.nonprofits.count == 0%>
+  There are no nonprofits to show.
+<%else%>
+  <%@dev.nonprofits.uniq.each do |n|%>
+    <h3><a href="/nonprofits/<%=n.slug%>"><%=n.name%></a></h3>
+  <%end%>
+<%end%>

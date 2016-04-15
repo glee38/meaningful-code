@@ -1,7 +1,9 @@
 <h1><%=@dev.name%>'s Projects</h1><br>
 
-<%if current_dev.slug == @dev.slug%>
-    <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/projects/edit"> <button type="submit" class="link">Manage Your Projects</h5><br>
+<%if dev_logged_in?%>
+  <%if current_dev.slug == @dev.slug%>
+      <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/projects/edit"> <button type="submit" class="link">Manage Your Projects</h5><br>
+  <%end%>
 <%end%>
 
 <%if @dev.projects.count == 0%>

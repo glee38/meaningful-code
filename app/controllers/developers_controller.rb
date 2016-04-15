@@ -143,12 +143,25 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get '/developers/:slug/nonprofits' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if !@dev.nil?
+      erb :'/developers/dev_nonprofits'
+    else
+      redirect "developers/failure"
+    end
+  end
+
+  get '/developers/failure' do
+    erb :'developers/failure'
+  end
+
   get '/developers/:slug' do
     @dev = Developer.find_by_slug(params[:slug])
     if !@dev.nil?
       erb :'/developers/show_developer'
     else
-      redirect "developers/login"
+      redirect "developers/failure"
     end
   end
 
