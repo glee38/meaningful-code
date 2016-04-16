@@ -1,1 +1,48 @@
-nonprofit's homepage
+<h1>Welcome, <%=current_np.name%>!</h1><br>
+
+<a href="/developers/all"><p class="text-muted">View all available developers</p></a>
+
+<h3><p class="text-warning">Projects Due Today:</h3><br>
+<%if current_np.projects.count == 0%>
+  There are no projects to display.<br>
+<%else%>
+  <% @due = [] %>
+  <%current_np.projects.each do |p|%>
+    <%if p.due_date == Date.today%>
+      <% @due << p %>
+      <li><h4><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h4></li>
+    <%end%>
+  <%end%>
+<%end%>
+
+<%if @due.count == 0%>
+  There are no projects to display.<br>
+<%end%><br>
+
+<h3>Open Projects:</h3><br>
+<%if current_np.projects.count == 0%>
+  There are no projects to display.<br>
+<%else%>
+  <%current_np.projects.each do |p|%>
+    <%if p.due_date >= Date.today%>
+    <li><h4><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h4></li>
+    <%end%>
+  <%end%>
+<%end%><br>
+
+<h3>Closed Projects:</h3><br>
+<%if current_np.projects.count == 0%>
+  There are no projects to display.<br>
+<%else%>
+  <% @closed = [] %>
+  <%current_np.projects.each do |p|%>
+    <%if p.due_date < Date.today%>
+      <% @closed << p %>
+      <li><h4><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h4></li>
+    <%end%>
+  <%end%>
+<%end%>
+
+<%if @closed.count == 0%>
+  There are no projects to display.
+<%end%><br></br>

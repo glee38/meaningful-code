@@ -48,7 +48,7 @@ class NonprofitsController < ApplicationController
     np = Nonprofit.find_by(username: params[:username])
     if np && np.authenticate(params[:password])
       session[:np_id] = np.id
-      redirect "/nonprofits/#{np.slug}"
+      redirect "/nonprofits/#{np.slug}/homepage"
     else
       erb :'nonprofits/login', locals: {message: "Incorrect username and/or password."}
     end
