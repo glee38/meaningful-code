@@ -1,0 +1,16 @@
+<h3>Closed Projects:</h3><br>
+<%if @np.projects.count == 0%>
+  There are no projects to display.<br>
+<%else%>
+  <% @closed = [] %>
+  <%@np.projects.each do |p|%>
+    <%if p.due_date < Date.today%>
+      <% @closed << p %>
+      <li><h4><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h4></li>
+    <%end%>
+  <%end%>
+<%end%>
+
+<%if @closed.count == 0%>
+  There are no projects to display.
+<%end%><br></br>

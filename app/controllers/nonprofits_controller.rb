@@ -175,6 +175,16 @@ class NonprofitsController < ApplicationController
     end 
   end
 
+  get "/nonprofits/:slug/projects/closed" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+
+    if !@np.nil?
+      erb :"projects/closed_projects", :layout => false
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
   get "/nonprofits/:slug/projects/edit" do
     @np = Nonprofit.find_by_slug(params[:slug])
     if !@np.nil?
