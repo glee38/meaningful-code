@@ -30,19 +30,20 @@
   <%end%>
 <%end%><br>
 
-<h3>Closed Projects:</h3><br>
-<%if current_np.projects.count == 0%>
-  There are no projects to display.<br>
-<%else%>
-  <% @closed = [] %>
-  <%current_np.projects.each do |p|%>
-    <%if p.due_date < Date.today%>
-      <% @closed << p %>
-      <li><h4><p class="text-muted"><a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h4></li>
-    <%end%>
-  <%end%>
-<%end%>
+<div id="closed"></div>
+<button type="button" onClick = "loadDoc(), this.style.visibility= 'hidden';">Show closed projects</button>
+<br></br>
+<br></br>
 
-<%if @closed.count == 0%>
-  There are no projects to display.
-<%end%><br></br>
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("closed").innerHTML = xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "/nonprofits/<%=@np.slug%>/projects/closed", true);
+  xhttp.send();
+}
+</script>
