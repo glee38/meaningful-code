@@ -5,10 +5,14 @@
   <% @np.developers.uniq.each_with_index do |d,i|%>
 
     <h4><p class="text-warning"><%="#{i+1}. "%><a href="/developers/<%=d.slug%>"><%= d.name %></a> // <a href="<%=d.github%>"><%= d.github %></a></h4>
-
+  
+  <ul>
     <%d.projects.each do |p|%>
-      <li><%=p.name%></li>
+      <% if p.nonprofit == current_np %>
+        <li><%=p.name%></li>
+      <%end%>
     <%end%><br>
+  </ul>
 
   <%end%>
 <%end%>

@@ -1,10 +1,20 @@
-<!DOCTYPE html>
+<% if @np.errors.any? %>
+  <div id="error_explanation">
+    Profile could not be updated because of the following errors:
+    <ul>
+    <% @np.errors.full_messages.each do |msg|%>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <head>
   <title>Edit Nonprofit</title>
 </head>
 <body>
   <h1>Edit Your Profile</h1><br>
-  <form action="/nonprofits/<%=current_np.slug%>" method="POST">
+  <form action="/nonprofits/<%=current_np.id%>/edit" method="POST">
   <input type="hidden" name="_method" value="PATCH">
   
   <label for="name">Name:</label><br>

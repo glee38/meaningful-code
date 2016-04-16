@@ -1,0 +1,22 @@
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
+<h1>Delete Projects</h1><br>
+<%if current_np.projects.count == 0%>
+  No current projects.
+
+<%else%>
+  <%current_np.projects.each do |p|%>
+
+  <form method="post" action="/developers/<%=current_np.slug%>/projects/delete">
+
+    <h5><p class="text-muted"><input type="checkbox" name="np[project_ids][]" value="<%=p.id%>"> &nbsp;<a href="/nonprofits/<%=p.nonprofit.slug%>/projects/<%=p.slug%>"><%=p.name%></a></p></h5>
+  <%end%><br>
+
+    <input id="hidden" type="hidden" name="_method" value="DELETE">
+    <input type="submit" value="Remove Project(s)"></p>
+
+  </form><br>
+
+<%end%><br>

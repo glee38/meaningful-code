@@ -89,23 +89,35 @@ class DevelopersController < ApplicationController
 
   get '/developers/:slug/projects/edit' do
     @dev = Developer.find_by_slug(params[:slug])
-    if dev_logged_in?
-      if current_dev.slug == @dev.slug
-        erb :'/developers/edit_projects'
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/edit_projects'
+        else
+          redirect "/developers/#{current_dev.slug}"
+        end
       else
-        redirect "/developers/#{current_dev.slug}"
+        redirect "/developers/#{@dev.slug}"
       end
     else
-      redirect "/developers/#{@dev.slug}"
+      redirect "/developers/failure"
     end
   end
 
   post '/developers/:slug/projects/edit' do
     @dev = Developer.find_by_slug(params[:slug])
-    if current_dev.slug == @dev.slug
-      erb :'/developers/edit_projects'
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/edit_projects'
+        else
+          redirect "/developers/#{current_dev.slug}"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
     else
-      redirect "/developers/#{current_dev.slug}"
+      redirect "/developers/failure"
     end
   end
 

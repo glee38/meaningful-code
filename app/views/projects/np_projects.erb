@@ -1,5 +1,14 @@
 <h1><%=@np.name%></h1>
 <h3><p class="text-primary"><%=@np.tagline%></h3><br>
+
+<%if np_logged_in?%>
+  <%if current_np.slug == @np.slug%>
+      <h5><form name="nonprofits" method="post" action="/nonprofits/<%=current_np.slug%>/projects/edit"> <button type="submit" class="link">Manage Your Projects</h5></form>
+
+      <h5><form name="nonprofits" method="post" action="/nonprofits/<%=current_np.slug%>/projects/delete"> <button type="submit" class="link">Delete Your Projects</h5></form><br>
+  <%end%>
+<%end%>
+
 <h3>Projects</h3>
 <%if @np.projects.count == 0%>
   There are no projects to display.

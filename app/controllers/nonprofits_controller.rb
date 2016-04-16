@@ -82,7 +82,6 @@ class NonprofitsController < ApplicationController
 
   get "/nonprofits/:id/edit" do
     @np = Nonprofit.find_by_id(params[:id])
-
     if !@np.nil?
       if np_logged_in?
         if current_np.id == @np.id
@@ -100,7 +99,6 @@ class NonprofitsController < ApplicationController
 
   post "/nonprofits/:id/edit" do
     @np = Nonprofit.find_by_id(params[:id])
-
     if !@np.nil?
       if np_logged_in?
         if current_np.id == @np.id
@@ -121,10 +119,10 @@ class NonprofitsController < ApplicationController
 
     if np_logged_in?
       if current_np.slug == @np.slug
-      @np.attributes=(params[:project])
-      @project.valid?
-        if @project.valid?
-          @project.save
+      @np.attributes=(params[:np])
+      @np.valid?
+        if @np.valid?
+          @np.save
           redirect "nonprofits/#{current_np.slug}"
         else
           erb :'nonprofits/edit'
@@ -175,6 +173,94 @@ class NonprofitsController < ApplicationController
     else
       redirect "/nonprofits/failure"
     end 
+  end
+
+  get "/nonprofits/:slug/projects/edit" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :"nonprofits/edit_projects"
+        else
+          redirect "/nonprofits/#{current_np.slug}/projects"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post "/nonprofits/:slug/projects/edit" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :"nonprofits/edit_projects"
+        else
+          redirect "/nonprofits/#{current_np.slug}/projects"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post "/nonprofits/:slug/project/edit" do
+    @project = Project.find_by_id(params[:project_id])
+    @np = Nonprofit.find_by_slug(params[:slug])
+    redirect "/nonprofits/#{@np.slug}/projects/#{@project.id}/edit"
+  end
+
+  get "/nonprofits/:slug/projects/delete" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :"nonprofits/delete_projects"
+        else
+          redirect "/nonprofits/#{current_np.slug}/projects"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post "/nonprofits/:slug/projects/delete" do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :"nonprofits/delete_projects"
+        else
+          redirect "/nonprofits/#{current_np.slug}/projects"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  delete '/developers/:slug/projects/delete' do
+    @to_delete = params[:np][:project_ids]
+
+    # #destroy selected projects from Project and its associations
+    # #delete merely selects the project from the db and deletes the column, does not destory associations
+
+      @to_delete.each do |p|
+        project = Project.find(p)
+        project.destroy
+      end
+
+      erb :"/nonprofits/edit_projects", locals: {message: "Project(s) successfully removed."} 
   end
 
   get "/nonprofits/:np_slug/projects/:p_slug" do

@@ -3,9 +3,7 @@
     Project could not be updated because of the following errors:
     <ul>
     <% @project.errors.full_messages.each do |msg|%>
-      <% unless msg.include?("digest") %>
       <li><%= msg %></li>
-      <% end %>
     <% end %>
     </ul>
   </div>
