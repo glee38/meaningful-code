@@ -87,6 +87,16 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get "/developers/:slug/projects/closed" do
+    @dev = Developer.find_by_slug(params[:slug])
+
+    if !@dev.nil?
+      erb :"developers/closed_projects", :layout => false
+    else
+      redirect "/developers/failure"
+    end
+  end
+
   get '/developers/:slug/projects/edit' do
     @dev = Developer.find_by_slug(params[:slug])
     if !@dev.nil?

@@ -179,7 +179,7 @@ class NonprofitsController < ApplicationController
     @np = Nonprofit.find_by_slug(params[:slug])
 
     if !@np.nil?
-      erb :"projects/closed_projects", :layout => false
+      erb :"nonprofits/closed_projects", :layout => false
     else
       redirect "/nonprofits/failure"
     end
