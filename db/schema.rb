@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414204941) do
+ActiveRecord::Schema.define(version: 20160417200550) do
 
   create_table "developer_projects", force: :cascade do |t|
     t.integer "developer_id"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 20160414204941) do
     t.string "password_digest"
     t.string "email"
     t.text   "about_me"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string  "sender"
+    t.string  "recipient"
+    t.string  "subject"
+    t.text    "content"
+    t.integer "developer_id"
+    t.integer "nonprofit_id"
+    t.date    "date"
   end
 
   create_table "nonprofits", force: :cascade do |t|

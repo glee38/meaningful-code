@@ -1,0 +1,21 @@
+<% if @message.errors.any? %>
+  <div id="error_explanation">
+    Message could not be sent because of the following errors:
+    <ul>
+    <% @message.errors.full_messages.each do |msg|%>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h1>Send a Message</h1><br>
+
+    <form action="/" method="post">
+      <label for="recipient">To:</label>
+      <input type="email" name="recipient" placeholder="Nonprofit e-mail"><br></br>
+      <label for="subject">Subject:</label>
+      <input type="text" name="subject" placeholder="Nonprofit Name"><br></br>
+      <textarea name="content" cols='30' rows="10" placeholder="Write your message here"></textarea><br></br>
+      <button type="submit" value="Send">Send</button>
+    </form>

@@ -70,10 +70,6 @@ class DevelopersController < ApplicationController
     erb :'developers/all_developers'
   end
 
-  get '/developers/message' do
-    erb :'/developers/message'
-  end
-
   get '/developers/failure' do
     erb :'developers/failure'
   end
@@ -140,6 +136,139 @@ class DevelopersController < ApplicationController
       @dev.update(project_ids: @project_ids)
 
       erb :"/developers/edit_projects", locals: {message: "Project(s) successfully removed."} 
+  end
+
+  get '/developers/:slug/messages' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/show_messages'
+        else
+          redirect "/developers/#{current_dev.slug}/messages"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
+    else
+      redirect "/developers/failure"
+    end
+  end
+
+  get '/developers/:slug/messages/new' do
+    @dev = Developer.find_by_slug(params[:slug])
+    @message = Message.new
+
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/new_message'
+        else
+          redirect "/developers/#{current_dev.slug}/messages"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
+    else
+      redirect "/developers/failure"
+    end
+  end
+
+  post '/developers/:slug/messages/new' do
+    @dev = Developer.find_by_slug(params[:slug])
+    @message = Message.new(params[:message])
+    @np = Nonprofit.find_by_email(params[:message][:recipient])
+
+    if @message.valid?
+      if !@np.nil?
+        @message.developer = current_dev
+        @message.nonprofit = @np
+        @message.date = Date.today
+        @message.sender = current_dev.email
+        @message.save
+        erb :'/developers/show_message', locals: {message: "Message successfully sent!"}
+      else
+        erb :'/developers/new_message', locals: {message: "Invalid e-mail address."}
+      end
+    else
+      erb :'/developers/new_message'
+    end
+  end
+
+  get "/developers/:slug/messages/:m_id/reply" do
+    @message = Message.find_by_id(params[:m_id])
+    erb :'developers/reply', :layout => false
+  end
+
+  get '/developers/:slug/messages/:m_id' do
+    @message = Message.find_by_id(params[:m_id])
+    @dev = Developer.find_by_slug(params[:slug])
+
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          if !@message.nil?
+            erb :'/developers/show_message'
+          else
+            erb :'messages/failure'
+          end
+        else
+          redirect "/developers/#{current_dev.slug}/messages"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
+    else
+      redirect "/developers/failure"
+    end
+    
+  end
+
+  post "/developers/:slug/messages/:m_id" do
+    @dev = Developer.find_by_slug(params[:slug])
+    @message = Message.find_by_id(params[:m_id])
+    @np = @message.nonprofit
+    @new_message = Message.new
+
+      if !params[:message][:content].empty?
+        @new_message.developer = current_dev
+        @new_message.nonprofit = @np
+        @new_message.date = Date.today
+        @new_message.content = params[:message][:content]
+        @new_message.subject = "Re: #{@message.subject}"
+        @new_message.recipient = @np.email
+        @new_message.sender = current_dev.email
+        @new_message.save
+        erb :'/developers/show_messages', locals: {message: "Message successfully sent!"} 
+      else
+        erb :'developers/reply', locals: {message: "Message cannot be empty."} 
+      end
+
+  end
+
+  get '/developers/:d_slug/messages/new/:np_slug' do
+    @dev = Developer.find_by_slug(params[:d_slug])
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @message = Message.new
+
+    erb :'/developers/new_np_message', :layout => false
+  end
+
+  post '/developers/:d_slug/messages/new/:np_slug' do
+    @dev = Developer.find_by_slug(params[:d_slug])
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @message = Message.new(params[:message])
+
+    if @message.valid?
+      @message.developer = current_dev
+      @message.nonprofit = @np
+      @message.date = Date.today
+      @message.sender = current_dev.email
+      @message.save
+      erb :'/nonprofits/show_nonprofit', locals: {message: "Message successfully sent!"} 
+    else
+      erb :'/developers/new_np_message'
+    end
   end
 
   get '/developers/:slug/homepage' do

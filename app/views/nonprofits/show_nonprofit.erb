@@ -1,12 +1,36 @@
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
 <h1><%=@np.name%></h1>
 <h3><p class="text-primary"><%=@np.tagline%></h3><br>
 <a href="/nonprofits/<%=@np.slug%>/projects"><h4><p class="text-muted">Projects</h4></a>
 <a href="/nonprofits/<%=@np.slug%>/cause"><h4><p class="text-muted">Our Cause</h4></a>
 <a href="<%=@np.website%>"><h4><p class="text-muted">Website</h4></a>
-<a href="/<%=@np.slug%>/projects"><h4><p class="text-muted">Donate</h4></a><br>
+<a href="/<%=@np.website%>"><h4><p class="text-muted">Donate</h4></a><br>
 
 <%if np_logged_in?%>
   <%if current_np.slug == @np.slug%>
     <h5><form name="nonprofits" method="post" action="/nonprofits/<%=current_np.id%>/edit"> <button type="submit" class="link">Edit Your Profile</h5>
   <%end%>
+<%end%>
+
+<%if dev_logged_in?%>
+<div id="contact"></div>
+<button type="button" onClick = "loadDoc(), this.style.visibility= 'hidden';">Contact Us</button>
+<br></br>
+<br></br>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("contact").innerHTML = xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "/developers/<%=current_dev.slug%>/messages/new/<%=@np.slug%>", true);
+  xhttp.send();
+}
+</script>
 <%end%>
