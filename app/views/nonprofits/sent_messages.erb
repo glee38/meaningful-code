@@ -1,0 +1,41 @@
+<h1>Sent Messages</h1><br>
+
+<%if current_np.messages.count == 0%>
+  There are no messages to display.
+<%else%>
+  <%@sent = []%>
+  <%@m_sorted = current_np.messages.order('id DESC')%>
+
+    <%@m_sorted.each do |m|%>
+      <% if m.sender == current_np.email%>
+        <%@sent << m%>
+      <%end%>
+    <%end%>
+
+      <% if @sent.count == 0%>
+      You have no sent messages.
+      <%else%>
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th></th>
+              <th>To</th>
+              <th>Subject</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+        <%@sent.each_with_index do |msg,i|%>
+          <tr>
+
+            <td><%=i+1%></td>
+            <td><a href="/nonprofits/<%=current_np.slug%>/messages/<%=msg.id%>"><%= msg.developer.name%></a></td>
+            <td><%= msg.subject%></td>
+            <td><%= msg.date%></td>
+          </tr>
+        <%end%>
+      <%end%>
+    
+    </tbody>
+  </table> 
+<%end%>

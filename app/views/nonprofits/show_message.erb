@@ -1,1 +1,28 @@
-show_message.erb
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
+<h1><%=@message.subject%></h1><br>
+Sent to: <b><%=@message.recipient%></b><br>
+Date sent: <%=@message.date%><br></br>
+
+<div style="width:600px;">
+<%=@message.content%></div><br></br>
+
+<div id="reply"></div>
+<button type="button" onClick = "loadDoc(), this.style.visibility= 'hidden';">Reply</button>
+<br></br>
+<br></br>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("reply").innerHTML = xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "/nonprofits/<%=current_np.slug%>/messages/<%=@message.id%>/reply", true);
+  xhttp.send();
+}
+</script>

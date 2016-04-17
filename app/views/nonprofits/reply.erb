@@ -1,0 +1,8 @@
+<% unless locals.empty? %>
+  <%= message %>
+<% end %>
+
+    <form action="/nonprofits/<%=current_np.slug%>/messages/<%=@message.id%>" method="post">
+      <textarea name="message[content]" cols='72' rows="10" placeholder="Write your message here"></textarea><br></br>
+      <button type="submit" value="Send">Reply</button>
+    </form>

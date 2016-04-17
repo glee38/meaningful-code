@@ -155,6 +155,40 @@ class DevelopersController < ApplicationController
     end
   end
 
+  get '/developers/:slug/messages/sent' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/sent_messages'
+        else
+          redirect "/developers/#{current_dev.slug}/messages"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
+    else
+      redirect "/developers/failure"
+    end
+  end
+
+  get '/developers/:slug/messages/recieved' do
+    @dev = Developer.find_by_slug(params[:slug])
+    if !@dev.nil?
+      if dev_logged_in?
+        if current_dev.slug == @dev.slug
+          erb :'/developers/recieved_messages'
+        else
+          redirect "/developers/#{current_dev.slug}/messages"
+        end
+      else
+        redirect "/developers/#{@dev.slug}"
+      end
+    else
+      redirect "/developers/failure"
+    end
+  end
+
   get '/developers/:slug/messages/new' do
     @dev = Developer.find_by_slug(params[:slug])
     @message = Message.new

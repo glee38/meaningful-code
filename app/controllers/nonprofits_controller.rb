@@ -175,6 +175,106 @@ class NonprofitsController < ApplicationController
     end 
   end
 
+  get '/nonprofits/:slug/messages' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :'/nonprofits/show_messages'
+        else
+          redirect "/nonprofits/#{current_np.slug}/messages"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  get '/nonprofits/:slug/messages/sent' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :'/nonprofits/sent_messages'
+        else
+          redirect "/nonprofits/#{current_np.slug}/messages"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  get '/nonprofits/:slug/messages/recieved' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :'/nonprofits/recieved_messages'
+        else
+          redirect "/nonprofits/#{current_np.slug}/messages"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  get '/nonprofits/:slug/messages/:m_id/reply' do
+    @message = Message.find_by_id(params[:m_id])
+    erb :'nonprofits/reply', :layout => false
+  end
+
+  get '/nonprofits/:slug/messages/:m_id' do
+    @message = Message.find_by_id(params[:m_id])
+    @np = Nonprofit.find_by_slug(params[:slug])
+
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          if !@message.nil?
+            erb :'/nonprofits/show_message'
+          else
+            erb :'messages/failure'
+          end
+        else
+          redirect "/nonprofits/#{current_np.slug}/messages"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post '/nonprofits/:slug/messages/:m_id' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    @message = Message.find_by_id(params[:m_id])
+    @dev = @message.developer
+    @new_message = Message.new
+
+      if !params[:message][:content].empty?
+        @new_message.developer = @dev
+        @new_message.nonprofit = current_np
+        @new_message.date = Date.today
+        @new_message.content = params[:message][:content]
+        @new_message.subject = "Re: #{@message.subject}"
+        @new_message.recipient = @dev.email
+        @new_message.sender = current_np.email
+        @new_message.save
+        erb :'/nonprofits/show_messages', locals: {message: "Message successfully sent!"} 
+      else
+        erb :'nonprofits/reply', locals: {message: "Message cannot be empty."} 
+      end
+  end
+
   get "/nonprofits/:slug/projects/closed" do
     @np = Nonprofit.find_by_slug(params[:slug])
 
