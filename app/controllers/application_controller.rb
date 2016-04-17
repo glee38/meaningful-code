@@ -19,6 +19,10 @@ class ApplicationController < Sinatra::Base
     end
   end
 
+  get "/about" do
+    erb :about
+  end
+
   helpers do
     def dev_logged_in?
       !!session[:dev_id]
