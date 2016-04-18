@@ -226,6 +226,71 @@ class NonprofitsController < ApplicationController
     end
   end
 
+  get '/nonprofits/:slug/messages/new' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    @message = Message.new
+
+    if !@np.nil?
+      if np_logged_in?
+        if current_np.slug == @np.slug
+          erb :'/nonprofits/new_message'
+        else
+          redirect "/nonprofits/#{current_np.slug}/messages"
+        end
+      else
+        redirect "/nonprofits/#{@np.slug}"
+      end
+    else
+      redirect "/nonprofits/failure"
+    end
+  end
+
+  post '/nonprofits/:slug/messages/new' do
+    @np = Nonprofit.find_by_slug(params[:slug])
+    @message = Message.new(params[:message])
+    @dev = Developer.find_by_email(params[:message][:recipient])
+
+    if @message.valid?
+      if !@dev.nil?
+        @message.developer = @dev
+        @message.nonprofit = current_np
+        @message.date = Date.today
+        @message.sender = current_np.email
+        @message.save
+        erb :'/nonprofits/show_message', locals: {message: "Message successfully sent!"}
+      else
+        erb :'/nonprofits/new_message', locals: {message: "Invalid e-mail address."}
+      end
+    else
+      erb :'/nonprofits/new_message'
+    end
+  end
+
+  get '/nonprofits/:np_slug/messages/new/:d_slug' do
+    @dev = Developer.find_by_slug(params[:d_slug])
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @message = Message.new
+
+    erb :'/nonprofits/new_dev_message', :layout => false
+  end
+
+  post '/nonprofits/:np_slug/messages/new/:d_slug' do
+    @dev = Developer.find_by_slug(params[:d_slug])
+    @np = Nonprofit.find_by_slug(params[:np_slug])
+    @message = Message.new(params[:message])
+
+    if @message.valid?
+      @message.developer = @dev
+      @message.nonprofit = current_np
+      @message.date = Date.today
+      @message.sender = current_np.email
+      @message.save
+      erb :'/developers/show_developer', locals: {message: "Message successfully sent!"} 
+    else
+      erb :'/nonprofits/new_dev_message'
+    end
+  end
+
   get '/nonprofits/:slug/messages/:m_id/reply' do
     @message = Message.find_by_id(params[:m_id])
     erb :'nonprofits/reply', :layout => false

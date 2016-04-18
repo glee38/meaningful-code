@@ -12,8 +12,7 @@
 <h1>Send a Message</h1><br>
 
     <form action="/developers/<%=@dev.slug%>/messages/new/<%=@np.slug%>" method="post">
-      <label for="recipient">To:</label>
-      <input type="email" name="message[recipient]" value="<%=@np.email%>"><br></br>
+      <input type="hidden" name="message[recipient]" value="<%=@np.email%>"><br></br>
       <label for="subject">Subject:</label>
       <input type="text" name="message[subject]" placeholder="Message Subject"><br></br>
       <textarea name="message[content]" cols='30' rows="10" placeholder="Write your message here"></textarea><br></br>

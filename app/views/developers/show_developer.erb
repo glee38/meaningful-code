@@ -21,3 +21,23 @@
     <h5><form name="developers" method="post" action="/developers/<%=current_dev.slug%>/edit"> <button type="submit" class="link">Edit Your Profile</h5>
   <%end%>
 <%end%>
+
+<%if np_logged_in?%>
+<div id="contact"></div>
+<button type="button" onClick = "loadDoc(), this.style.visibility= 'hidden';">Message</button>
+<br></br>
+<br></br>
+
+  <script>
+    function loadDoc() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          document.getElementById("contact").innerHTML = xhttp.responseText;
+        }
+      };
+      xhttp.open("GET", "/nonprofits/<%=current_np.slug%>/messages/new/<%=@dev.slug%>", true);
+      xhttp.send();
+    }
+  </script>
+<%end%>

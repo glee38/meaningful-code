@@ -1,14 +1,14 @@
 <h1>Recieved Messages</h1><br>
 
 
-<%if current_dev.messages.count == 0%>
+<%if current_np.messages.count == 0%>
   There are no messages to display.
 <%else%>
   <%@recieved = []%>
-  <%@m_sorted = current_dev.messages.order('id DESC')%>
+  <%@m_sorted = current_np.messages.order('id DESC')%>
 
     <%@m_sorted.each do |m|%>
-      <% if m.recipient == current_dev.email%>
+      <% if m.recipient == current_np.email%>
         <%@recieved << m%>
       <%end%>
     <%end%>
@@ -20,7 +20,7 @@
           <thead>
             <tr>
               <th></th>
-              <th>To</th>
+              <th>From</th>
               <th>Subject</th>
               <th>Date</th>
             </tr>
@@ -30,7 +30,7 @@
           <tr>
 
             <td><%=i+1%></td>
-            <td><a href="/developers/<%=current_dev.slug%>/messages/<%=msg.id%>"><%= msg.nonprofit.name%></a></td>
+            <td><a href="/nonprofits/<%=current_np.slug%>/messages/<%=msg.id%>"><%= msg.developer.name%></a></td>
             <td><%= msg.subject%></td>
             <td><%= msg.date%></td>
           </tr>

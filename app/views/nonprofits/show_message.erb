@@ -3,7 +3,7 @@
 <% end %>
 
 <h1><%=@message.subject%></h1><br>
-Sent to: <b><%=@message.recipient%></b><br>
+Sent to: <a href="/developers/<%=@message.developer.slug%>"><b><%=@message.developer.name%></b></a> (<%=@message.recipient%>)<br>
 Date sent: <%=@message.date%><br></br>
 
 <div style="width:600px;">

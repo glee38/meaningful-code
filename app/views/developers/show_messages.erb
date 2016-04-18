@@ -23,8 +23,8 @@
   <tr>
 
     <td><%=i+1%></td>
-    <td><a href="/developers/<%=current_dev.slug%>/messages/<%=m.id%>"><%= m.nonprofit.name%></a></td>
-    <td><%= m.subject%></td>
+    <td><a href="/nonprofits/<%=m.nonprofit.slug%>"><%= m.nonprofit.name%></td>
+    <td><a href="/developers/<%=current_dev.slug%>/messages/<%=m.id%>"><%= m.subject%></a></td>
     <td><%= m.date%></td>
   </tr>
   <%end%>

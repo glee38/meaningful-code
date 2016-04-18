@@ -1,7 +1,3 @@
-<% unless locals.empty? %>
-  <%= message %>
-<% end %>
-
   <% if @message.errors.any? %>
     <div id="error_explanation">
       Message could not be sent because of the following errors:
@@ -15,9 +11,8 @@
 
 <h1>Send a Message</h1><br>
 
-    <form action="/nonprofits/<%=current_np.slug%>/messages/new" method="post">
-      <label for="recipient">To:</label>
-      <input type="email" name="message[recipient]" placeholder="Developer e-mail"><br></br>
+    <form action="/nonprofits/<%=@np.slug%>/messages/new/<%=@dev.slug%>" method="post">
+      <input type="hidden" name="message[recipient]" value="<%=@dev.email%>">
       <label for="subject">Subject:</label>
       <input type="text" name="message[subject]" placeholder="Message Subject"><br></br>
       <textarea name="message[content]" cols='30' rows="10" placeholder="Write your message here"></textarea><br></br>

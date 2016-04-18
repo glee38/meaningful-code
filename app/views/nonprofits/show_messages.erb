@@ -2,7 +2,7 @@
   <%= message %>
 <% end %>
 
-<h1><%=current_np.name%>'s Messages</h1><br>
+<h1>All Messages</h1><br>
 
 <%if current_np.messages.count == 0 %>
   There are no messages to display.
@@ -23,8 +23,8 @@
   <tr>
 
     <td><%=i+1%></td>
-    <td><a href="/nonprofits/<%=current_np.slug%>/messages/<%=m.id%>"><%= m.developer.name%></a></td>
-    <td><%= m.subject%></td>
+    <td><%= m.developer.name%></td>
+    <td><a href="/nonprofits/<%=current_np.slug%>/messages/<%=m.id%>"><%= m.subject%></a></td>
     <td><%= m.date%></td>
   </tr>
   <%end%>
