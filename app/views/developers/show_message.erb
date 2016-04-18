@@ -3,11 +3,12 @@
 <% end %>
 
 <h1><%=@message.subject%></h1><br>
-Sent to: <a href="/developers/<%=@message.nonprofit.slug%>"><b><%=@message.nonprofit.name%></b></a> (<%=@message.recipient%>)<br>
-Date sent: <%=@message.date%><br></br>
+Sent to: <b><%=@message.recipient%></b><br>
+From: <b><%=@message.sender%></b><br>
+<p class="text-warning">Date sent: <%=@message.date%></p><br></br>
 
 <div style="width:600px;">
-<%=@message.content%></div><br></br>
+<big><%=@message.content%></big></div><br></br>
 
 <div id="reply"></div>
 <button type="button" onClick = "loadDoc(), this.style.visibility= 'hidden';">Reply</button>
