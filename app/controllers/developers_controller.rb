@@ -255,7 +255,6 @@ class DevelopersController < ApplicationController
     else
       redirect "/developers/failure"
     end
-    
   end
 
   post "/developers/:slug/messages/:m_id" do
@@ -277,7 +276,6 @@ class DevelopersController < ApplicationController
       else
         erb :'developers/reply', locals: {message: "Message cannot be empty."} 
       end
-
   end
 
   get '/developers/:d_slug/messages/new/:np_slug' do
