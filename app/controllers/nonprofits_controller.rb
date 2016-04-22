@@ -435,7 +435,7 @@ class NonprofitsController < ApplicationController
         project.destroy
       end
 
-      erb :"/nonprofits/edit_projects", locals: {message: "Project(s) successfully removed."} 
+      erb :"/nonprofits/delete_projects", locals: {message: "Project(s) successfully removed."} 
   end
 
   get "/nonprofits/:np_slug/projects/:p_slug" do
@@ -502,7 +502,6 @@ class NonprofitsController < ApplicationController
     if np_logged_in?
       if current_np.slug == @np.slug
       @project.attributes=(params[:project])
-      @project.valid?
         if @project.valid?
           @project.save
           redirect "nonprofits/#{current_np.slug}/projects/#{@project.slug}"
