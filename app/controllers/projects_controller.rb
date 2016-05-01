@@ -39,5 +39,4 @@ class ProjectsController < ApplicationController
     erb :'projects/failure'
   end
 
-
 end
